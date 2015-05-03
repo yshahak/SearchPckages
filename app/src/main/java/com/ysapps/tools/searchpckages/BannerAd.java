@@ -69,7 +69,7 @@ public class BannerAd {
                 fileBuffer.close();
                 packageName = lines.get(0);
                 int orientation =  ctx.getResources().getConfiguration().orientation;
-                if (pm.getLaunchIntentForPackage(packageName) != null){ //The app isn't installed in device
+                if (pm.getLaunchIntentForPackage(packageName) == null){ //The app isn't installed in device
                     if (orientation == Configuration.ORIENTATION_PORTRAIT)
                         bannerUrl = lines.get(2);
                     else
@@ -89,6 +89,8 @@ public class BannerAd {
                 InputStream bitmapBuffer = new java.net.URL(bannerUrl).openStream();
                 bitmap = BitmapFactory.decodeStream(bitmapBuffer);
                 bitmapBuffer.close();
+                if (bitmap == null)
+                    return null;
                 RelativeLayout container;
 
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -105,6 +107,7 @@ public class BannerAd {
                 container.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 container.addView(banner);
                 container.addView(x);
+                container.bringToFront();
                 View.OnClickListener listener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -116,7 +119,7 @@ public class BannerAd {
                 return container;
 
 
-            } catch (IOException e) {
+            } catch (IOException  | IndexOutOfBoundsException e) {
                 e.printStackTrace();
                 return null;
             }
