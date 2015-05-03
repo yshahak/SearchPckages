@@ -12,6 +12,9 @@ import java.util.regex.Pattern;
 /**
  * Created by B.E.L on 13/04/2015.
  */
+/**
+ * Created by B.E.L on 13/04/2015.
+ */
 public class SearchPackages {
 
 
@@ -37,7 +40,7 @@ public class SearchPackages {
                     Pattern pattern = Pattern.compile("\\s");
                     Matcher matcher = pattern.matcher(packageName);
                     if (matcher.find())
-                       packageName = packageName.replace(" ", "");
+                        packageName = packageName.replace(" ", "");
                     if (pm.getLaunchIntentForPackage(packageName) == null)
                         return count;
                     else
